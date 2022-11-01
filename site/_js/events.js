@@ -22,6 +22,20 @@ import {loadMore} from './load-more';
 import memoize from './utils/memoize';
 import {isPastEvent, sortAsc, sortDesc} from './utils/events';
 
+import calendarIcon from '../_includes/icons/calendar.svg';
+import pinIcon from '../_includes/icons/pin.svg';
+import slidesIcon from '../_includes/icons/slides.svg';
+import videoIcon from '../_includes/icons/video.svg';
+import launchIcon from '../_includes/icons/launch.svg';
+
+const icons = {
+  calendarIcon,
+  pinIcon,
+  slidesIcon,
+  videoIcon,
+  launchIcon,
+};
+
 const getEvents = async () => {
   const response = await fetch('/events.json');
 
@@ -51,7 +65,7 @@ const getEvents = async () => {
       return upcomingEvents
         .sort(sortAsc)
         .slice(skip, take + skip)
-        .map(event => RenderEventCard(event));
+        .map(event => RenderEventCard(event, icons));
     },
     {skip, take}
   );
@@ -65,7 +79,7 @@ const getEvents = async () => {
       return pastEvents
         .sort(sortDesc)
         .slice(skip, take + skip)
-        .map(event => RenderEventCard(event));
+        .map(event => RenderEventCard(event, icons));
     },
     {skip, take}
   );
