@@ -40,8 +40,8 @@ const {Partial} = require('./site/_shortcodes/Partial');
 
 // Transforms
 const {domTransformer} = require('./site/_transforms/dom-transformer-pool');
-const {purifyCss} = require('./site/_transforms/purify-css-pool');
 const {minifyHtml} = require('./site/_transforms/minify-html');
+const CssTransform = require('webdev-infra/transforms/css');
 
 // Plugins
 const md = require('./site/_plugins/markdown');
@@ -164,7 +164,15 @@ module.exports = eleventyConfig => {
   // These transforms should _always_ go last because they look at the final
   // HTML for the page and inline CSS / minify.
   if (isProduction) {
-    eleventyConfig.addTransform('purifyCss', purifyCss);
+    eleventyConfig.addTransform('purifyCss', (new CssTransform()).configure({
+      cssPath: 'dist/css/main.css',
+      jsPaths: [
+        'dist/js/**/*.js'
+      ],
+      insert: (content, result) => {
+        return content.replace('</head>', `<style>${result}</style></head>`)
+      }
+    }));
     eleventyConfig.addTransform('minifyHtml', minifyHtml);
   }
 
