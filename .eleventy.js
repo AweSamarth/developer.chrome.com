@@ -41,7 +41,7 @@ const {Partial} = require('./site/_shortcodes/Partial');
 // Transforms
 const {domTransformer} = require('./site/_transforms/dom-transformer-pool');
 const {minifyHtml} = require('./site/_transforms/minify-html');
-const CssTransform = require('webdev-infra/transforms/css');
+const {CssTransform} = require('webdev-infra/transforms/css');
 
 // Plugins
 const md = require('./site/_plugins/markdown');
